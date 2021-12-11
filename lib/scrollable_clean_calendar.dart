@@ -79,10 +79,6 @@ class ScrollableCleanCalendar extends StatefulWidget {
   /// The controller of ScrollableCleanCalendar
   final CleanCalendarController calendarController;
 
-  /// Specify height for a month section - this is used to calculate the
-  /// initial position for the scrollController
-  final double? height;
-
   const ScrollableCleanCalendar({
     this.locale = 'en',
     this.scrollController,
@@ -106,7 +102,6 @@ class ScrollableCleanCalendar extends StatefulWidget {
     this.dayDisableBackgroundColor,
     this.dayTextStyle,
     this.dayRadius = 6,
-    this.height,
     required this.calendarController,
   }) : assert(layout != null ||
             (monthBuilder != null &&
