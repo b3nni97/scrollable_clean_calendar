@@ -129,12 +129,15 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
     initializeDateFormatting();
 
     //Find index of the month which contains the initialDateSelected
-    var minDay = widget.calendarController.minDate;
+    var minDayMonth = widget.calendarController.minDate.month;
     int scrollIndex = 0;
 
     while (
-        minDay.month != widget.calendarController.initialDateSelected?.month) {
+        minDayMonth != widget.calendarController.initialDateSelected?.month) {
+      minDayMonth++;
       scrollIndex++;
+
+      if (minDayMonth > 12) break;
     }
 
     monthsBefore = scrollIndex;
