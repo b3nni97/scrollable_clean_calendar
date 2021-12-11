@@ -117,11 +117,7 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
   late int monthsBefore;
   late int monthsAfter;
 
-  // Key centerKey = const Key('center-key');
-
-  GlobalKey centerKey = GlobalKey();
-
-  late DateTime mainMonth;
+  Key centerKey = const Key('center-key');
 
   @override
   void initState() {
@@ -143,18 +139,7 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
 
       monthsBefore = scrollIndex;
       monthsAfter = widget.calendarController.months.length - scrollIndex;
-
-      mainMonth = widget.calendarController.months[monthsBefore];
     }
-
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      if (centerKey.currentContext != null) {
-        Scrollable.ensureVisible(
-          centerKey.currentContext!,
-          alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
-        );
-      }
-    });
 
     super.initState();
   }
@@ -168,7 +153,7 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
     return CustomScrollView(
       controller: widget.scrollController,
       physics: widget.physics,
-      // center: centerKey,
+      center: centerKey,
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate(
@@ -234,68 +219,13 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
         ),
         SliverToBoxAdapter(
           key: centerKey,
-          child: Container(
-            color: Colors.blue,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: double.maxFinite,
-                  child: MonthWidget(
-                    month: mainMonth,
-                    locale: widget.locale,
-                    layout: widget.layout,
-                    monthBuilder: widget.monthBuilder,
-                    textAlign: widget.monthTextAlign,
-                    textStyle: widget.monthTextStyle,
-                  ),
-                ),
-                SizedBox(height: widget.spaceBetweenMonthAndCalendar),
-                Column(
-                  children: [
-                    WeekdaysWidget(
-                      showWeekdays: widget.showWeekdays,
-                      cleanCalendarController: widget.calendarController,
-                      locale: widget.locale,
-                      layout: widget.layout,
-                      weekdayBuilder: widget.weekdayBuilder,
-                      textStyle: widget.weekdayTextStyle,
-                    ),
-                    AnimatedBuilder(
-                      animation: widget.calendarController,
-                      builder: (_, __) {
-                        return DaysWidget(
-                          month: mainMonth,
-                          cleanCalendarController: widget.calendarController,
-                          calendarCrossAxisSpacing:
-                              widget.calendarCrossAxisSpacing,
-                          calendarMainAxisSpacing:
-                              widget.calendarMainAxisSpacing,
-                          layout: widget.layout,
-                          dayBuilder: widget.dayBuilder,
-                          backgroundColor: widget.dayBackgroundColor,
-                          selectedBackgroundColor:
-                              widget.daySelectedBackgroundColor,
-                          selectedBackgroundColorBetween:
-                              widget.daySelectedBackgroundColorBetween,
-                          disableBackgroundColor:
-                              widget.dayDisableBackgroundColor,
-                          radius: widget.dayRadius,
-                          textStyle: widget.dayTextStyle,
-                        );
-                      },
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
+          child: Container(),
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               final month =
-                  widget.calendarController.months[index + monthsBefore + 1];
+                  widget.calendarController.months[index + monthsBefore];
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -351,7 +281,7 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
                 ],
               );
             },
-            childCount: monthsAfter - 1,
+            childCount: monthsAfter,
           ),
         ),
       ],
