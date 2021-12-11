@@ -149,7 +149,10 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (centerKey.currentContext != null) {
-        Scrollable.ensureVisible(centerKey.currentContext!);
+        Scrollable.ensureVisible(
+          centerKey.currentContext!,
+          alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtStart,
+        );
       }
     });
 
@@ -292,7 +295,7 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               final month =
-                  widget.calendarController.months[index + monthsBefore - 1];
+                  widget.calendarController.months[index + monthsBefore + 1];
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
