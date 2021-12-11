@@ -210,7 +210,10 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
                         },
                       )
                     ],
-                  )
+                  ),
+                  SizedBox(
+                    height: widget.spaceBetweenCalendars,
+                  ),
                 ],
               );
             },
@@ -277,7 +280,10 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
                         },
                       )
                     ],
-                  )
+                  ),
+                  SizedBox(
+                    height: widget.spaceBetweenCalendars,
+                  ),
                 ],
               );
             },
