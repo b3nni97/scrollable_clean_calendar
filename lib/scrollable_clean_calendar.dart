@@ -2,12 +2,14 @@ library scrollable_clean_calendar;
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:scrollable_clean_calendar/models/day_values_model.dart';
 import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.dart';
 import 'package:scrollable_clean_calendar/utils/enums.dart';
 import 'package:scrollable_clean_calendar/widgets/days_widget.dart';
 import 'package:scrollable_clean_calendar/widgets/month_widget.dart';
 import 'package:scrollable_clean_calendar/widgets/weekdays_widget.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ScrollableCleanCalendar extends StatefulWidget {
   /// The language locale
@@ -110,9 +112,23 @@ class ScrollableCleanCalendar extends StatefulWidget {
 }
 
 class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
+  late AutoScrollController autoScrollController;
+
+  int scrollIndex = -1;
+
   @override
   void initState() {
     initializeDateFormatting();
+
+    autoScrollController = AutoScrollController();
+
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      //Jump to selected time
+      if (scrollIndex >= 0) {
+        autoScrollController.scrollToIndex(scrollIndex,
+            duration: Duration.zero);
+      }
+    });
 
     super.initState();
   }
@@ -131,55 +147,67 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
       itemBuilder: (context, index) {
         final month = widget.calendarController.months[index];
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: double.maxFinite,
-              child: MonthWidget(
-                month: month,
-                locale: widget.locale,
-                layout: widget.layout,
-                monthBuilder: widget.monthBuilder,
-                textAlign: widget.monthTextAlign,
-                textStyle: widget.monthTextStyle,
-              ),
-            ),
-            SizedBox(height: widget.spaceBetweenMonthAndCalendar),
-            Column(
-              children: [
-                WeekdaysWidget(
-                  showWeekdays: widget.showWeekdays,
-                  cleanCalendarController: widget.calendarController,
+        if (widget.calendarController.initialDateSelected?.month ==
+            month.month) {
+          scrollIndex = index;
+        }
+
+        return AutoScrollTag(
+          index: index,
+          key: ValueKey(index),
+          controller: autoScrollController,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: double.maxFinite,
+                child: MonthWidget(
+                  month: month,
                   locale: widget.locale,
                   layout: widget.layout,
-                  weekdayBuilder: widget.weekdayBuilder,
-                  textStyle: widget.weekdayTextStyle,
+                  monthBuilder: widget.monthBuilder,
+                  textAlign: widget.monthTextAlign,
+                  textStyle: widget.monthTextStyle,
                 ),
-                AnimatedBuilder(
-                  animation: widget.calendarController,
-                  builder: (_, __) {
-                    return DaysWidget(
-                      month: month,
-                      cleanCalendarController: widget.calendarController,
-                      calendarCrossAxisSpacing: widget.calendarCrossAxisSpacing,
-                      calendarMainAxisSpacing: widget.calendarMainAxisSpacing,
-                      layout: widget.layout,
-                      dayBuilder: widget.dayBuilder,
-                      backgroundColor: widget.dayBackgroundColor,
-                      selectedBackgroundColor:
-                          widget.daySelectedBackgroundColor,
-                      selectedBackgroundColorBetween:
-                          widget.daySelectedBackgroundColorBetween,
-                      disableBackgroundColor: widget.dayDisableBackgroundColor,
-                      radius: widget.dayRadius,
-                      textStyle: widget.dayTextStyle,
-                    );
-                  },
-                )
-              ],
-            )
-          ],
+              ),
+              SizedBox(height: widget.spaceBetweenMonthAndCalendar),
+              Column(
+                children: [
+                  WeekdaysWidget(
+                    showWeekdays: widget.showWeekdays,
+                    cleanCalendarController: widget.calendarController,
+                    locale: widget.locale,
+                    layout: widget.layout,
+                    weekdayBuilder: widget.weekdayBuilder,
+                    textStyle: widget.weekdayTextStyle,
+                  ),
+                  AnimatedBuilder(
+                    animation: widget.calendarController,
+                    builder: (_, __) {
+                      return DaysWidget(
+                        month: month,
+                        cleanCalendarController: widget.calendarController,
+                        calendarCrossAxisSpacing:
+                            widget.calendarCrossAxisSpacing,
+                        calendarMainAxisSpacing: widget.calendarMainAxisSpacing,
+                        layout: widget.layout,
+                        dayBuilder: widget.dayBuilder,
+                        backgroundColor: widget.dayBackgroundColor,
+                        selectedBackgroundColor:
+                            widget.daySelectedBackgroundColor,
+                        selectedBackgroundColorBetween:
+                            widget.daySelectedBackgroundColorBetween,
+                        disableBackgroundColor:
+                            widget.dayDisableBackgroundColor,
+                        radius: widget.dayRadius,
+                        textStyle: widget.dayTextStyle,
+                      );
+                    },
+                  )
+                ],
+              )
+            ],
+          ),
         );
       },
     );
