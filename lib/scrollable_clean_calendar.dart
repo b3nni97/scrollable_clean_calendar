@@ -133,8 +133,8 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
     int scrollIndex = 0;
 
     if (widget.calendarController.initialDateSelected != null) {
-      while (
-          isSameMonth(minDay, widget.calendarController.initialDateSelected!)) {
+      while (!isSameMonth(
+          minDay, widget.calendarController.initialDateSelected!)) {
         scrollIndex++;
 
         minDay = DateTime(minDay.year, minDay.month + 1, minDay.day);
