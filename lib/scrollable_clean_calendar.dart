@@ -151,7 +151,7 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
       if (centerKey.currentContext != null) {
         Scrollable.ensureVisible(
           centerKey.currentContext!,
-          alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtStart,
+          alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
         );
       }
     });
