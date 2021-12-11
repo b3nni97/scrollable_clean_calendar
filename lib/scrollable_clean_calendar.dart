@@ -144,7 +144,7 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
       monthsBefore = scrollIndex;
       monthsAfter = widget.calendarController.months.length - scrollIndex;
 
-      mainMonth = widget.calendarController.months[monthsBefore + 1];
+      mainMonth = widget.calendarController.months[monthsBefore];
     }
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
