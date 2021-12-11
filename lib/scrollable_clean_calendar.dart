@@ -231,57 +231,61 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
         ),
         SliverToBoxAdapter(
           key: centerKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: double.maxFinite,
-                child: MonthWidget(
-                  month: mainMonth,
-                  locale: widget.locale,
-                  layout: widget.layout,
-                  monthBuilder: widget.monthBuilder,
-                  textAlign: widget.monthTextAlign,
-                  textStyle: widget.monthTextStyle,
-                ),
-              ),
-              SizedBox(height: widget.spaceBetweenMonthAndCalendar),
-              Column(
-                children: [
-                  WeekdaysWidget(
-                    showWeekdays: widget.showWeekdays,
-                    cleanCalendarController: widget.calendarController,
+          child: Container(
+            color: Colors.blue,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.maxFinite,
+                  child: MonthWidget(
+                    month: mainMonth,
                     locale: widget.locale,
                     layout: widget.layout,
-                    weekdayBuilder: widget.weekdayBuilder,
-                    textStyle: widget.weekdayTextStyle,
+                    monthBuilder: widget.monthBuilder,
+                    textAlign: widget.monthTextAlign,
+                    textStyle: widget.monthTextStyle,
                   ),
-                  AnimatedBuilder(
-                    animation: widget.calendarController,
-                    builder: (_, __) {
-                      return DaysWidget(
-                        month: mainMonth,
-                        cleanCalendarController: widget.calendarController,
-                        calendarCrossAxisSpacing:
-                            widget.calendarCrossAxisSpacing,
-                        calendarMainAxisSpacing: widget.calendarMainAxisSpacing,
-                        layout: widget.layout,
-                        dayBuilder: widget.dayBuilder,
-                        backgroundColor: widget.dayBackgroundColor,
-                        selectedBackgroundColor:
-                            widget.daySelectedBackgroundColor,
-                        selectedBackgroundColorBetween:
-                            widget.daySelectedBackgroundColorBetween,
-                        disableBackgroundColor:
-                            widget.dayDisableBackgroundColor,
-                        radius: widget.dayRadius,
-                        textStyle: widget.dayTextStyle,
-                      );
-                    },
-                  )
-                ],
-              )
-            ],
+                ),
+                SizedBox(height: widget.spaceBetweenMonthAndCalendar),
+                Column(
+                  children: [
+                    WeekdaysWidget(
+                      showWeekdays: widget.showWeekdays,
+                      cleanCalendarController: widget.calendarController,
+                      locale: widget.locale,
+                      layout: widget.layout,
+                      weekdayBuilder: widget.weekdayBuilder,
+                      textStyle: widget.weekdayTextStyle,
+                    ),
+                    AnimatedBuilder(
+                      animation: widget.calendarController,
+                      builder: (_, __) {
+                        return DaysWidget(
+                          month: mainMonth,
+                          cleanCalendarController: widget.calendarController,
+                          calendarCrossAxisSpacing:
+                              widget.calendarCrossAxisSpacing,
+                          calendarMainAxisSpacing:
+                              widget.calendarMainAxisSpacing,
+                          layout: widget.layout,
+                          dayBuilder: widget.dayBuilder,
+                          backgroundColor: widget.dayBackgroundColor,
+                          selectedBackgroundColor:
+                              widget.daySelectedBackgroundColor,
+                          selectedBackgroundColorBetween:
+                              widget.daySelectedBackgroundColorBetween,
+                          disableBackgroundColor:
+                              widget.dayDisableBackgroundColor,
+                          radius: widget.dayRadius,
+                          textStyle: widget.dayTextStyle,
+                        );
+                      },
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
         SliverList(
