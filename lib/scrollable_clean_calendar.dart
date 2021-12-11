@@ -2,14 +2,12 @@ library scrollable_clean_calendar;
 
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:scrollable_clean_calendar/models/day_values_model.dart';
 import 'package:scrollable_clean_calendar/controllers/clean_calendar_controller.dart';
 import 'package:scrollable_clean_calendar/utils/enums.dart';
 import 'package:scrollable_clean_calendar/widgets/days_widget.dart';
 import 'package:scrollable_clean_calendar/widgets/month_widget.dart';
 import 'package:scrollable_clean_calendar/widgets/weekdays_widget.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ScrollableCleanCalendar extends StatefulWidget {
   /// The language locale
@@ -17,6 +15,9 @@ class ScrollableCleanCalendar extends StatefulWidget {
 
   /// Scroll controller
   final ScrollController? scrollController;
+
+  /// Phyiscs of scroll
+  final ScrollPhysics? physics;
 
   /// If is to show or not the weekdays in calendar
   final bool showWeekdays;
@@ -78,9 +79,14 @@ class ScrollableCleanCalendar extends StatefulWidget {
   /// The controller of ScrollableCleanCalendar
   final CleanCalendarController calendarController;
 
+  /// Specify height for a month section - this is used to calculate the
+  /// initial position for the scrollController
+  final double? height;
+
   const ScrollableCleanCalendar({
     this.locale = 'en',
     this.scrollController,
+    this.physics,
     this.showWeekdays = true,
     this.layout,
     this.calendarCrossAxisSpacing = 4,
@@ -100,6 +106,7 @@ class ScrollableCleanCalendar extends StatefulWidget {
     this.dayDisableBackgroundColor,
     this.dayTextStyle,
     this.dayRadius = 6,
+    this.height,
     required this.calendarController,
   }) : assert(layout != null ||
             (monthBuilder != null &&
@@ -112,23 +119,22 @@ class ScrollableCleanCalendar extends StatefulWidget {
 }
 
 class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
-  late AutoScrollController autoScrollController;
-
-  int scrollIndex = -1;
-
   @override
   void initState() {
     initializeDateFormatting();
 
-    autoScrollController = AutoScrollController();
+    //Find index of the month which contains the initialDateSelected
+    var minDay = widget.calendarController.minDate;
+    int scrollIndex = 0;
 
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      //Jump to selected time
-      if (scrollIndex >= 0) {
-        autoScrollController.scrollToIndex(scrollIndex,
-            duration: Duration.zero);
-      }
-    });
+    while (
+        minDay.month != widget.calendarController.initialDateSelected?.month) {
+      scrollIndex++;
+    }
+
+    if (widget.height != null) {
+      widget.scrollController?.jumpTo(widget.height! * scrollIndex);
+    }
 
     super.initState();
   }
@@ -147,15 +153,8 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
       itemBuilder: (context, index) {
         final month = widget.calendarController.months[index];
 
-        if (widget.calendarController.initialDateSelected?.month ==
-            month.month) {
-          scrollIndex = index;
-        }
-
-        return AutoScrollTag(
-          index: index,
-          key: ValueKey(index),
-          controller: autoScrollController,
+        return SizedBox(
+          height: widget.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
