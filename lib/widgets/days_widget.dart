@@ -267,17 +267,17 @@ class DaysWidget extends StatelessWidget {
           boxShape = BoxShape.circle;
         } else if (values.selectedMinDate != null &&
             values.day.isSameDay(values.selectedMinDate!)) {
-          borderRadius = BorderRadius.only(
-            topLeft: Radius.circular(radius),
-            bottomLeft: Radius.circular(radius),
+          borderRadius = const BorderRadius.only(
+            topLeft: Radius.circular(90.0),
+            bottomLeft: Radius.circular(90.0),
           );
           useStack = true;
           boxShape = BoxShape.circle;
         } else if (values.selectedMaxDate != null &&
             values.day.isSameDay(values.selectedMaxDate!)) {
-          borderRadius = BorderRadius.only(
-            topRight: Radius.circular(radius),
-            bottomRight: Radius.circular(radius),
+          borderRadius = const BorderRadius.only(
+            topRight: Radius.circular(90.0),
+            bottomRight: Radius.circular(90.0),
           );
           useStack = true;
           boxShape = BoxShape.circle;
