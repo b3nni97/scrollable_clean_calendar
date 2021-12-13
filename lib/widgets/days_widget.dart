@@ -224,6 +224,7 @@ class DaysWidget extends StatelessWidget {
           ? FontWeight.bold
           : null,
     );
+    BoxShape boxShape = BoxShape.rectangle;
 
     if (values.isSelected) {
       if (values.isFirstDayOfWeek) {
@@ -261,19 +262,22 @@ class DaysWidget extends StatelessWidget {
         );
 
         if (values.selectedMinDate == values.selectedMaxDate) {
-          borderRadius = BorderRadius.circular(radius);
+          // borderRadius = BorderRadius.circular(radius);
+          boxShape = BoxShape.circle;
         } else if (values.selectedMinDate != null &&
             values.day.isSameDay(values.selectedMinDate!)) {
-          borderRadius = BorderRadius.only(
-            topLeft: Radius.circular(radius),
-            bottomLeft: Radius.circular(radius),
-          );
+          // borderRadius = BorderRadius.only(
+          //   topLeft: Radius.circular(radius),
+          //   bottomLeft: Radius.circular(radius),
+          // );
+          boxShape = BoxShape.circle;
         } else if (values.selectedMaxDate != null &&
             values.day.isSameDay(values.selectedMaxDate!)) {
-          borderRadius = BorderRadius.only(
-            topRight: Radius.circular(radius),
-            bottomRight: Radius.circular(radius),
-          );
+          // borderRadius = BorderRadius.only(
+          //   topRight: Radius.circular(radius),
+          //   bottomRight: Radius.circular(radius),
+          // );
+          boxShape = BoxShape.circle;
         }
       } else {
         bgColor = selectedBackgroundColorBetween ??
@@ -307,6 +311,7 @@ class DaysWidget extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: bgColor,
+        shape: boxShape,
         borderRadius: borderRadius,
       ),
       child: Text(
