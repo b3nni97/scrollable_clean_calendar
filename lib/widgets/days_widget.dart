@@ -236,10 +236,10 @@ class DaysWidget extends StatelessWidget {
       } else if (values.isLastDayOfWeek) {
         print("IS LAST DAY OF WEEK");
         print(values.day);
-        borderRadius = BorderRadius.only(
-          topRight: Radius.circular(radius),
-          bottomRight: Radius.circular(radius),
-        );
+        // borderRadius = BorderRadius.only(
+        //   topRight: Radius.circular(radius),
+        //   bottomRight: Radius.circular(radius),
+        // );
       }
 
       if ((values.selectedMinDate != null &&
