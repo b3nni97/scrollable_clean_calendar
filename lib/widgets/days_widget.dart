@@ -237,6 +237,7 @@ class DaysWidget extends StatelessWidget {
       } else if (values.isLastDayOfWeek) {
         print("IS LAST DAY OF WEEK");
         print(values.day);
+        print("DAS IST EIN TEXST");
         // borderRadius = BorderRadius.only(
         //   topRight: Radius.circular(radius),
         //   bottomRight: Radius.circular(radius),
