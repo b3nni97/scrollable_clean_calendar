@@ -225,6 +225,7 @@ class DaysWidget extends StatelessWidget {
           : null,
     );
     BoxShape boxShape = BoxShape.rectangle;
+    bool useStack = false;
 
     if (values.isSelected) {
       if (values.isFirstDayOfWeek) {
@@ -267,17 +268,19 @@ class DaysWidget extends StatelessWidget {
           boxShape = BoxShape.circle;
         } else if (values.selectedMinDate != null &&
             values.day.isSameDay(values.selectedMinDate!)) {
-          // borderRadius = BorderRadius.only(
-          //   topLeft: Radius.circular(radius),
-          //   bottomLeft: Radius.circular(radius),
-          // );
+          borderRadius = BorderRadius.only(
+            topLeft: Radius.circular(radius),
+            bottomLeft: Radius.circular(radius),
+          );
+          useStack = true;
           boxShape = BoxShape.circle;
         } else if (values.selectedMaxDate != null &&
             values.day.isSameDay(values.selectedMaxDate!)) {
-          // borderRadius = BorderRadius.only(
-          //   topRight: Radius.circular(radius),
-          //   bottomRight: Radius.circular(radius),
-          // );
+          borderRadius = BorderRadius.only(
+            topRight: Radius.circular(radius),
+            bottomRight: Radius.circular(radius),
+          );
+          useStack = true;
           boxShape = BoxShape.circle;
           //
         }
@@ -309,18 +312,30 @@ class DaysWidget extends StatelessWidget {
       );
     }
 
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: bgColor,
-        shape: boxShape,
-        borderRadius: borderRadius,
-      ),
-      child: Text(
-        values.text,
-        textAlign: TextAlign.center,
-        style: txtStyle,
-      ),
+    return Stack(
+      children: [
+        if (useStack)
+          Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: selectedBackgroundColorBetween,
+              borderRadius: borderRadius,
+            ),
+          ),
+        Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: bgColor,
+            shape: boxShape,
+            borderRadius: useStack ? null : borderRadius,
+          ),
+          child: Text(
+            values.text,
+            textAlign: TextAlign.center,
+            style: txtStyle,
+          ),
+        ),
+      ],
     );
   }
 }
