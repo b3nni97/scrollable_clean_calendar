@@ -38,7 +38,7 @@ class ScrollableCleanCalendar extends StatefulWidget {
   final double calendarMainAxisSpacing;
 
   /// The parent padding
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsets? padding;
 
   /// The label text style of month
   final TextStyle? monthTextStyle;
@@ -155,6 +155,11 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
       physics: widget.physics,
       center: centerKey,
       slivers: [
+        SliverToBoxAdapter(
+          child: Container(
+            height: widget.padding?.top ?? 0,
+          ),
+        ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
@@ -288,6 +293,11 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
               );
             },
             childCount: monthsAfter,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Container(
+            height: widget.padding?.bottom ?? 0,
           ),
         ),
       ],
