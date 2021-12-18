@@ -224,18 +224,24 @@ class DaysWidget extends StatelessWidget {
           ? FontWeight.bold
           : null,
     );
+    BoxShape boxShape = BoxShape.rectangle;
+    bool useStack = false;
 
     if (values.isSelected) {
       if (values.isFirstDayOfWeek) {
-        borderRadius = BorderRadius.only(
-          topLeft: Radius.circular(radius),
-          bottomLeft: Radius.circular(radius),
-        );
+        print("IS FIRST DAY OF WEEK");
+        print(values.day);
+        // borderRadius = BorderRadius.only(
+        //   topLeft: Radius.circular(radius),
+        //   bottomLeft: Radius.circular(radius),
+        // );
       } else if (values.isLastDayOfWeek) {
-        borderRadius = BorderRadius.only(
-          topRight: Radius.circular(radius),
-          bottomRight: Radius.circular(radius),
-        );
+        print("IS LAST DAY OF WEEK");
+        print(values.day);
+        // borderRadius = BorderRadius.only(
+        //   topRight: Radius.circular(radius),
+        //   bottomRight: Radius.circular(radius),
+        // );
       }
 
       if ((values.selectedMinDate != null &&
@@ -257,19 +263,25 @@ class DaysWidget extends StatelessWidget {
         );
 
         if (values.selectedMinDate == values.selectedMaxDate) {
-          borderRadius = BorderRadius.circular(radius);
+          // borderRadius = BorderRadius.circular(radius);
+          boxShape = BoxShape.circle;
         } else if (values.selectedMinDate != null &&
             values.day.isSameDay(values.selectedMinDate!)) {
-          borderRadius = BorderRadius.only(
-            topLeft: Radius.circular(radius),
-            bottomLeft: Radius.circular(radius),
+          borderRadius = const BorderRadius.only(
+            topLeft: Radius.circular(90.0),
+            bottomLeft: Radius.circular(90.0),
           );
+          useStack = true;
+          boxShape = BoxShape.circle;
         } else if (values.selectedMaxDate != null &&
             values.day.isSameDay(values.selectedMaxDate!)) {
-          borderRadius = BorderRadius.only(
-            topRight: Radius.circular(radius),
-            bottomRight: Radius.circular(radius),
+          borderRadius = const BorderRadius.only(
+            topRight: Radius.circular(90.0),
+            bottomRight: Radius.circular(90.0),
           );
+          useStack = true;
+          boxShape = BoxShape.circle;
+          //
         }
       } else {
         bgColor = selectedBackgroundColorBetween ??
@@ -299,145 +311,30 @@ class DaysWidget extends StatelessWidget {
       );
     }
 
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: borderRadius,
-      ),
-      child: Text(
-        values.text,
-        textAlign: TextAlign.center,
-        style: txtStyle,
-      ),
+    return Stack(
+      children: [
+        if (useStack)
+          Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: selectedBackgroundColorBetween,
+              borderRadius: borderRadius,
+            ),
+          ),
+        Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: bgColor,
+            shape: boxShape,
+            borderRadius: useStack ? null : borderRadius,
+          ),
+          child: Text(
+            values.text,
+            textAlign: TextAlign.center,
+            style: txtStyle,
+          ),
+        ),
+      ],
     );
   }
-
-  // Widget _beauty(BuildContext context, DayValues values) {
-  //   BorderRadiusGeometry? borderRadius;
-  //   Color bgColor = Colors.transparent;
-  //   TextStyle txtStyle =
-  //       (textStyle ?? Theme.of(context).textTheme.bodyText1)!.copyWith(
-  //     color: backgroundColor != null
-  //         ? backgroundColor!.computeLuminance() > .5
-  //             ? Colors.black
-  //             : Colors.white
-  //         : Theme.of(context).colorScheme.onSurface,
-  //     fontWeight: values.isFirstDayOfWeek || values.isLastDayOfWeek
-  //         ? FontWeight.bold
-  //         : null,
-  //   );
-  //   BoxShape boxShape = BoxShape.rectangle;
-  //   bool useStack = false;
-
-  //   if (values.isSelected) {
-  //     if (values.isFirstDayOfWeek) {
-  //       print("IS FIRST DAY OF WEEK");
-  //       print(values.day);
-  //       // borderRadius = BorderRadius.only(
-  //       //   topLeft: Radius.circular(radius),
-  //       //   bottomLeft: Radius.circular(radius),
-  //       // );
-  //     } else if (values.isLastDayOfWeek) {
-  //       print("IS LAST DAY OF WEEK");
-  //       print(values.day);
-  //       // borderRadius = BorderRadius.only(
-  //       //   topRight: Radius.circular(radius),
-  //       //   bottomRight: Radius.circular(radius),
-  //       // );
-  //     }
-
-  //     if ((values.selectedMinDate != null &&
-  //             values.day.isSameDay(values.selectedMinDate!)) ||
-  //         (values.selectedMaxDate != null &&
-  //             values.day.isSameDay(values.selectedMaxDate!))) {
-  //       bgColor =
-  //           selectedBackgroundColor ?? Theme.of(context).colorScheme.primary;
-  //       txtStyle =
-  //           (textStyle ?? Theme.of(context).textTheme.bodyText1)!.copyWith(
-  //         color: selectedBackgroundColor != null
-  //             ? selectedBackgroundColor!.computeLuminance() > .5
-  //                 ? Colors.black
-  //                 : Colors.white
-  //             : Theme.of(context).colorScheme.onPrimary,
-  //         fontWeight: values.isFirstDayOfWeek || values.isLastDayOfWeek
-  //             ? FontWeight.bold
-  //             : null,
-  //       );
-
-  //       if (values.selectedMinDate == values.selectedMaxDate) {
-  //         // borderRadius = BorderRadius.circular(radius);
-  //         boxShape = BoxShape.circle;
-  //       } else if (values.selectedMinDate != null &&
-  //           values.day.isSameDay(values.selectedMinDate!)) {
-  //         borderRadius = const BorderRadius.only(
-  //           topLeft: Radius.circular(90.0),
-  //           bottomLeft: Radius.circular(90.0),
-  //         );
-  //         useStack = true;
-  //         boxShape = BoxShape.circle;
-  //       } else if (values.selectedMaxDate != null &&
-  //           values.day.isSameDay(values.selectedMaxDate!)) {
-  //         borderRadius = const BorderRadius.only(
-  //           topRight: Radius.circular(90.0),
-  //           bottomRight: Radius.circular(90.0),
-  //         );
-  //         useStack = true;
-  //         boxShape = BoxShape.circle;
-  //         //
-  //       }
-  //     } else {
-  //       bgColor = selectedBackgroundColorBetween ??
-  //           Theme.of(context).colorScheme.primary.withOpacity(.3);
-  //       txtStyle =
-  //           (textStyle ?? Theme.of(context).textTheme.bodyText1)!.copyWith(
-  //         color:
-  //             selectedBackgroundColor ?? Theme.of(context).colorScheme.primary,
-  //         fontWeight: values.isFirstDayOfWeek || values.isLastDayOfWeek
-  //             ? FontWeight.bold
-  //             : null,
-  //       );
-  //     }
-  //   } else if (values.day.isSameDay(values.minDate)) {
-  //   } else if (values.day.isBefore(values.minDate) ||
-  //       values.day.isAfter(values.maxDate)) {
-  //     txtStyle = (textStyle ?? Theme.of(context).textTheme.bodyText1)!.copyWith(
-  //       color: disableBackgroundColor != null
-  //           ? disableBackgroundColor!.computeLuminance() > .5
-  //               ? Colors.black.withOpacity(.5)
-  //               : Colors.white.withOpacity(.5)
-  //           : Theme.of(context).colorScheme.onSurface.withOpacity(.5),
-  //       decoration: TextDecoration.lineThrough,
-  //       fontWeight: values.isFirstDayOfWeek || values.isLastDayOfWeek
-  //           ? FontWeight.bold
-  //           : null,
-  //     );
-  //   }
-
-  //   return Stack(
-  //     children: [
-  //       if (useStack)
-  //         Container(
-  //           alignment: Alignment.center,
-  //           decoration: BoxDecoration(
-  //             color: selectedBackgroundColorBetween,
-  //             borderRadius: borderRadius,
-  //           ),
-  //         ),
-  //       Container(
-  //         alignment: Alignment.center,
-  //         decoration: BoxDecoration(
-  //           color: bgColor,
-  //           shape: boxShape,
-  //           borderRadius: useStack ? null : borderRadius,
-  //         ),
-  //         child: Text(
-  //           values.text,
-  //           textAlign: TextAlign.center,
-  //           style: txtStyle,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 }
