@@ -87,8 +87,9 @@ class DaysWidget extends StatelessWidget {
         }
 
         print(text);
-
+        print(day);
         print(isSelected);
+
         print(cleanCalendarController.rangeMinDate!);
         print(cleanCalendarController.rangeMaxDate!);
 
