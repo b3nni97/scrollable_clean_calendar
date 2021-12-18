@@ -67,9 +67,9 @@ class DaysWidget extends StatelessWidget {
       mainAxisSpacing: calendarMainAxisSpacing,
       shrinkWrap: true,
       children: List.generate(
-          DateTime(month.year, month.month + 1, 0).day + start, (index) {
+          DateTime.utc(month.year, month.month + 1, 0).day + start, (index) {
         if (index < start) return const SizedBox.shrink();
-        final day = DateTime(month.year, month.month, (index + 1 - start));
+        final day = DateTime.utc(month.year, month.month, (index + 1 - start));
         final text = (index + 1 - start).toString();
 
         bool isSelected = false;
