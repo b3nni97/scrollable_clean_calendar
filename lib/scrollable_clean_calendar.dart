@@ -163,7 +163,8 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              final month = widget.calendarController.months[index];
+              final month =
+                  widget.calendarController.months[monthsBefore - index];
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
