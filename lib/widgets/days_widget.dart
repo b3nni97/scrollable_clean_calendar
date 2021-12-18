@@ -86,6 +86,10 @@ class DaysWidget extends StatelessWidget {
           }
         }
 
+        print(text);
+
+        print(isSelected);
+
         Widget widget;
 
         final dayValues = DayValues(
