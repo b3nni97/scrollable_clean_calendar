@@ -229,15 +229,13 @@ class DaysWidget extends StatelessWidget {
 
     if (values.isSelected) {
       if (values.isFirstDayOfWeek) {
-        print("IS FIRST DAY OF WEEK");
-        print(values.day);
+     
         // borderRadius = BorderRadius.only(
         //   topLeft: Radius.circular(radius),
         //   bottomLeft: Radius.circular(radius),
         // );
       } else if (values.isLastDayOfWeek) {
-        print("IS LAST DAY OF WEEK");
-        print(values.day);
+      
         // borderRadius = BorderRadius.only(
         //   topRight: Radius.circular(radius),
         //   bottomRight: Radius.circular(radius),
