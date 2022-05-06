@@ -228,20 +228,6 @@ class DaysWidget extends StatelessWidget {
     bool useStack = false;
 
     if (values.isSelected) {
-      if (values.isFirstDayOfWeek) {
-     
-        // borderRadius = BorderRadius.only(
-        //   topLeft: Radius.circular(radius),
-        //   bottomLeft: Radius.circular(radius),
-        // );
-      } else if (values.isLastDayOfWeek) {
-      
-        // borderRadius = BorderRadius.only(
-        //   topRight: Radius.circular(radius),
-        //   bottomRight: Radius.circular(radius),
-        // );
-      }
-
       if ((values.selectedMinDate != null &&
               values.day.isSameDay(values.selectedMinDate!)) ||
           (values.selectedMaxDate != null &&
@@ -309,6 +295,9 @@ class DaysWidget extends StatelessWidget {
       );
     }
 
+    bool showSameDayDecoration =
+        !values.isSelected && DateTime.now().isSameDay(values.day);
+
     return Stack(
       children: [
         if (useStack)
@@ -325,6 +314,9 @@ class DaysWidget extends StatelessWidget {
             color: bgColor,
             shape: boxShape,
             borderRadius: useStack ? null : borderRadius,
+            border: showSameDayDecoration
+                ? Border.all(color: const Color(0xff908e96))
+                : null,
           ),
           child: Text(
             values.text,
