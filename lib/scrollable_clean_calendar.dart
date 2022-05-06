@@ -228,7 +228,11 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
         ),
         SliverToBoxAdapter(
           key: centerKey,
-          child: Container(),
+          child: Container(
+            height: 40,
+            width: 500,
+            color: Colors.red,
+          ),
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
