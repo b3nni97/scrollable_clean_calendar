@@ -312,7 +312,7 @@ class DaysWidget extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: bgColor,
-            shape: boxShape,
+            shape: showSameDayDecoration ? BoxShape.circle : boxShape,
             borderRadius: useStack ? null : borderRadius,
             border: showSameDayDecoration
                 ? Border.all(color: const Color(0xff908e96))
