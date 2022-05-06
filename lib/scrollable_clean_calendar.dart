@@ -137,8 +137,8 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
         if (minDay.isAfter(widget.calendarController.maxDate)) break;
       }
 
-      monthsBefore = scrollIndex;
-      monthsAfter = widget.calendarController.months.length - scrollIndex;
+      monthsBefore = scrollIndex + 1;
+      monthsAfter = widget.calendarController.months.length - monthsBefore;
     }
 
     super.initState();
