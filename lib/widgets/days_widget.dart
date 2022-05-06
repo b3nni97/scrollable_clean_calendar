@@ -309,20 +309,22 @@ class DaysWidget extends StatelessWidget {
             ),
           ),
         Container(
-          alignment: Alignment.center,
           margin: showSameDayDecoration ? const EdgeInsets.all(6) : null,
-          decoration: BoxDecoration(
-            color: bgColor,
-            shape: showSameDayDecoration ? BoxShape.circle : boxShape,
-            borderRadius: useStack ? null : borderRadius,
-            border: showSameDayDecoration
-                ? Border.all(color: const Color(0xff908e96))
-                : null,
-          ),
-          child: Text(
-            values.text,
-            textAlign: TextAlign.center,
-            style: txtStyle,
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: bgColor,
+              shape: showSameDayDecoration ? BoxShape.circle : boxShape,
+              borderRadius: useStack ? null : borderRadius,
+              border: showSameDayDecoration
+                  ? Border.all(color: const Color(0xff908e96))
+                  : null,
+            ),
+            child: Text(
+              values.text,
+              textAlign: TextAlign.center,
+              style: txtStyle,
+            ),
           ),
         ),
       ],
