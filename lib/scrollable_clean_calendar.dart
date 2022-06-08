@@ -79,6 +79,8 @@ class ScrollableCleanCalendar extends StatefulWidget {
   /// The controller of ScrollableCleanCalendar
   final CleanCalendarController calendarController;
 
+  final DateTime? focusedDate;
+
   const ScrollableCleanCalendar({
     this.locale = 'en',
     this.scrollController,
@@ -102,6 +104,7 @@ class ScrollableCleanCalendar extends StatefulWidget {
     this.dayDisableBackgroundColor,
     this.dayTextStyle,
     this.dayRadius = 6,
+    this.focusedDate,
     required this.calendarController,
   }) : assert(layout != null ||
             (monthBuilder != null &&
@@ -127,9 +130,11 @@ class _ScrollableCleanCalendarState extends State<ScrollableCleanCalendar> {
     var minDay = widget.calendarController.minDate;
     int scrollIndex = 0;
 
-    if (widget.calendarController.initialDateSelected != null) {
-      while (!isSameMonth(
-          minDay, widget.calendarController.initialDateSelected!)) {
+    var focusedDay =
+        widget.focusedDate ?? widget.calendarController.initialDateSelected;
+
+    if (focusedDay != null) {
+      while (!isSameMonth(minDay, focusedDay!)) {
         scrollIndex++;
 
         minDay = DateTime(minDay.year, minDay.month + 1, minDay.day);
